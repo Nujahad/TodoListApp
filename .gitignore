@@ -1,0 +1,4 @@
+/.idea/
+/target/classes/
+/src/main/package-lock.json
+/src/main/node_modules/
