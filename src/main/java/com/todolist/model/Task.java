@@ -1,8 +1,13 @@
 package com.todolist.model;
 
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -13,12 +18,14 @@ import java.util.Objects;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "Task")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long Id;
+    private Long id;
 
     @NotBlank(message = "Task Name is mandatory")
     @Column(name = "taskName")
@@ -35,16 +42,16 @@ public class Task {
     private Calendar lastModified;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userId", nullable = false)
     @JsonIgnore
     private User user;
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -92,11 +99,19 @@ public class Task {
         if (this == o) return true;
         if (!(o instanceof Task)) return false;
         Task task = (Task) o;
-        return Id.equals(task.Id);
+        return id.equals(task.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Id);
+        return Objects.hash(id);
+    }
+
+    public Task(Long id, String name, String description, Status status, Calendar lastModified) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.lastModified = lastModified;
     }
 }

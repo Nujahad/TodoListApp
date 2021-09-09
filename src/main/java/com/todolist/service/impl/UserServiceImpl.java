@@ -21,11 +21,12 @@ public class UserServiceImpl implements UserService {
         if (userId != null) {
             return userRepository.findById(userId);
         }
-        throw new EntityNotFoundException("User Id is mandatory");
+        throw new EntityNotFoundException("User Id is Mandatory");
     }
 
     @Override
     public User loadUserByUserName(String username) throws EntityNotFoundException {
+        Optional<User> user1 = userRepository.findByUserName("1");
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new EntityNotFoundException("User Not Found with username: " + username));
         return  user;

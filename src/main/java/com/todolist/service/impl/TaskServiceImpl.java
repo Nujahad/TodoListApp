@@ -45,37 +45,38 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task updateTask(Task updateTask) {
+    public Task updateTask(Task updateTask, Long userId) {
         if(updateTask.getId() == null) {
             throw new EntityNotFoundException("Task id is Mandatory");
         }
-        Task task = taskRepository.findById(updateTask.getId()).map(task1 -> {
+        Task task = taskRepository.findByIdAndUserId(updateTask.getId(), userId).map(task1 -> {
             task1.setDescription(updateTask.getDescription());
             task1.setName(updateTask.getName());
             task1.setStatus(updateTask.getStatus());
             return task1;
-             }).orElseThrow(() -> new EntityNotFoundException("Task not found"));
+             }).orElseThrow(() -> new EntityNotFoundException("ask not found for given user"));
         return taskRepository.save(task);
     }
 
 
     @Override
-    public void deleteTask(Long taskId) {
+    public void deleteTask(Long taskId, Long userId) {
         if(taskId == null) {
             throw new EntityNotFoundException("Task id is Mandatory");
         }
-        Task task = taskRepository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Task not found"));
+        Task task = taskRepository.findByIdAndUserId(taskId, userId).
+                orElseThrow(() -> new EntityNotFoundException("Task not found"));
          taskRepository.delete(task);
     }
 
     @Override
-    public Task changeStatus(Long taskId, Status status) {
+    public Task changeStatus(Long taskId, Status status, Long userId) {
         if(taskId == null) {
             throw new EntityNotFoundException("Task id is Mandatory");
         }
-        Task task = taskRepository.findById(taskId).map(task1 -> {
+        Task task = taskRepository.findByIdAndUserId(taskId, userId).map(task1 -> {
             task1.setStatus(status);
             return task1;
-        }).orElseThrow(() -> new EntityNotFoundException("Task not found"));
+        }).orElseThrow(() -> new EntityNotFoundException("Task not found for given user"));
         return taskRepository.save(task);    }
 }

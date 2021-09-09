@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @RestController
-@RequestMapping("api/tasks")
+@RequestMapping("api/tasks/")
 public class TaskListController {
 
     @Autowired
@@ -43,21 +43,24 @@ public class TaskListController {
     }
 
     @PutMapping
-    public ResponseEntity<Task> updateTask(@Valid @RequestBody Task task) {
-        Task updatedTask = taskService.updateTask(task);
+    public ResponseEntity<Task> updateTask(@Valid @RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {
+        Long userId  =((UserDetailsImpl) userDetails).getId();
+        Task updatedTask = taskService.updateTask(task, userId);
         return ResponseEntity.ok(updatedTask);
     }
 
     @DeleteMapping("/{taskId}")
-    public ResponseEntity deleteTask(@PathVariable Long taskId) {
-        taskService.deleteTask(taskId);
+    public ResponseEntity deleteTask(@PathVariable Long taskId, @AuthenticationPrincipal UserDetails userDetails) {
+        Long userId  =((UserDetailsImpl) userDetails).getId();
+        taskService.deleteTask(taskId, userId);
         return ResponseEntity.ok().build();
 
     }
 
     @PatchMapping("/{taskId}")
-    public ResponseEntity<Task> changeStatus(@PathVariable Long taskId, @RequestBody Status status) {
-        Task updatedTask = taskService.changeStatus(taskId, status);
+    public ResponseEntity<Task> changeStatus(@PathVariable Long taskId, @RequestBody Status status, @AuthenticationPrincipal UserDetails userDetails) {
+        Long userId  =((UserDetailsImpl) userDetails).getId();
+        Task updatedTask = taskService.changeStatus(taskId, status, userId);
         return ResponseEntity.ok(updatedTask);
 
     }
