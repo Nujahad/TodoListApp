@@ -2,6 +2,7 @@ package com.todolist.model;
 
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -39,7 +41,8 @@ public class Task {
 
     @Column(name = "lastModified")
     @UpdateTimestamp
-    private Calendar lastModified;
+    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
+    private Date lastModified;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
@@ -78,11 +81,11 @@ public class Task {
         this.status = status;
     }
 
-    public Calendar getLastModified() {
+    public Date getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(Calendar lastModified) {
+    public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
     }
 
@@ -107,7 +110,7 @@ public class Task {
         return Objects.hash(id);
     }
 
-    public Task(Long id, String name, String description, Status status, Calendar lastModified) {
+    public Task(Long id, String name, String description, Status status, Date lastModified) {
         this.id = id;
         this.name = name;
         this.description = description;

@@ -1,3 +1,4 @@
+
 package com.todolist.service.impl;
 
 import com.todolist.exception.EntityNotFoundException;
@@ -5,10 +6,8 @@ import com.todolist.model.Status;
 import com.todolist.model.Task;
 import com.todolist.model.User;
 import com.todolist.repository.TaskRepository;
-import com.todolist.repository.UserRepository;
 import com.todolist.service.TaskService;
 import com.todolist.service.UserService;
-import org.hibernate.mapping.Any;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,7 +19,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -48,7 +47,7 @@ public class TaskServiceImplTest {
         //given
         Long userId = 1l;
         Set<Task> taskSet = new HashSet<>();
-        taskSet.add(new Task(1L, "test", "test", Status.INPROGRESS, Calendar.getInstance()));
+        taskSet.add(new Task(1L, "test", "test", Status.INPROGRESS, new Date()));
 
         //when
         when(taskRepository.findByUserId(userId)).thenReturn(taskSet);
@@ -81,7 +80,7 @@ public class TaskServiceImplTest {
         //given
         Long userId = 1L;
         User user = new User(userId,"test", "test");
-        Task task = new Task(1L, "test", "test", Status.INPROGRESS, Calendar.getInstance());
+        Task task = new Task(1L, "test", "test", Status.INPROGRESS,  new Date());
 
         //when
         when(userService.findById(user.getId())).thenReturn(Optional.of(user));
