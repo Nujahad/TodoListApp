@@ -5,7 +5,6 @@ import com.todolist.model.User;
 import com.todolist.repository.UserRepository;
 import com.todolist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
