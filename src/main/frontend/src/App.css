@@ -36,3 +36,46 @@
     transform: rotate(360deg);
   }
 }
+
+.form-group {
+  margin:0 20px 20px 0;
+}
+
+.form-element-spacing {
+  margin : 0 0 10px 0;
+}
+
+#root{
+  height : 100%;
+}
+
+.fullscreen{
+  height : 100%;
+}
+
+.middle{
+  height : 50%;
+}
+
+.nav-bar-left-margin{
+  margin-left : 30px;
+}
+
+.nav-bar-right-margin{
+  margin-right : 30px;
+}
+
+.task-list-top-margin{
+    margin-top : 30px;
+}
+
+.task-add-edit-button{
+    margin-right : 10px;
+    margin-top : 20px;
+}
+
+.task-cancel-button{
+    margin-left : 10px;
+    margin-top : 20px;
+}
+
