@@ -47,6 +47,14 @@ class TaskList extends Component {
         this.props.history.push(`/tasks/-1`)
     }
 
+    convertUTCDateToLocalDate = (date) =>{
+        const newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+        const offset = date.getTimezoneOffset() / 60;
+        const hours = date.getHours();
+        newDate.setHours(hours - offset);
+        return newDate;
+    }
+
     updateStatus = (id, status) => {
         this.setState({isLoading: true});
         var updatedStatus = status === STATUS.COMPLETED ? STATUS.INPROGRESS : STATUS.COMPLETED
@@ -81,7 +89,7 @@ class TaskList extends Component {
                                     </td>
                                     <td>{task.name}</td>
                                     <td>{task.description}</td>
-                                    <td>{task.lastModified}</td>
+                                    <td>{this.convertUTCDateToLocalDate(new Date(task.lastModified)).toLocaleString()}</td>
                                     <td>
                                         <button className="btn btn-warning" onClick={() => this.updateTask(task.id)}>Edit</button>
                                     </td>
